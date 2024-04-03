@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Contrôleur pour la vue de la page de paiement.
+ */
 public class checkoutController {
 
     @FXML
@@ -40,7 +43,9 @@ public class checkoutController {
     private double seniorPrice = 7.50;
     private double pmrPrice = 7.50; // Prix pour les personnes à mobilité réduite
 
-
+    /**
+     * Initialise le contrôleur.
+     */
     @FXML
     private void initialize() {
         checkoutbtn.setOnAction(event -> openBancontactPage());
@@ -52,7 +57,9 @@ public class checkoutController {
         pmrComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
     }
 
-
+    /**
+     * Ouvre la page de paiement Bancontact.
+     */
     private void openBancontactPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/bancontact.fxml"));
@@ -65,6 +72,11 @@ public class checkoutController {
         }
     }
 
+    /**
+     * Réinitialise les ComboBox de sélection.
+     *
+     * @param event L'événement de bouton.
+     */
     @FXML
     private void handleResetButton(ActionEvent event) {
         if (adultComboBox != null) {
@@ -81,6 +93,9 @@ public class checkoutController {
         }
     }
 
+    /**
+     * Met à jour le prix total en fonction des sélections dans les ComboBox.
+     */
     private void updateTotalPrice() {
         int adultCount = adultComboBox.getValue() != null ? adultComboBox.getValue() : 0;
         int childCount = childComboBox.getValue() != null ? childComboBox.getValue() : 0;
@@ -90,5 +105,4 @@ public class checkoutController {
         double totalPrice = (adultCount * adultPrice) + (childCount * childPrice) + (seniorCount * seniorPrice) + (pmrCount * pmrPrice);
         ticketPriceLabel.setText(String.format("%.2f €", totalPrice));
     }
-
 }

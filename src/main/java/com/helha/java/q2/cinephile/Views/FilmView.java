@@ -7,14 +7,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Vue pour afficher la liste des films.
+ */
 public class FilmView {
     private Stage primaryStage;
 
+    /**
+     * Constructeur de la classe FilmView.
+     *
+     * @param primaryStage La scène principale de l'application.
+     */
     public FilmView(Stage primaryStage) {
         this.primaryStage = primaryStage;
         init();
     }
 
+    /**
+     * Initialise la vue en chargeant le fichier FXML et en affichant la fenêtre principale.
+     */
     private void init() {
         try {
             // Charger le fichier FXML
