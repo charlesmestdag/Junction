@@ -1,4 +1,5 @@
 package com.helha.java.q2.cinephile.Controllers;
+import com.helha.java.q2.cinephile.Models.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,8 +65,33 @@ public class ScheduleController {
     private AnchorPane toppane;
 
     @FXML
+    private Button backButton;
+
+    @FXML
     private void initialize() {
         buyticketbtn.setOnAction(event -> openCheckoutPage());
+        backButton.setOnAction(event -> goBack());
+    }
+
+    public void setFilm(Film film) {
+        movietitle.setText(film.getTitre());
+        movieduration.setText(film.getDuree());
+    }
+    private void goBack() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/FilmView.fxml"));
+            Parent root = loader.load();
+
+            // Obtenez la scène actuelle
+            Scene scene = backButton.getScene();
+            Stage stage = (Stage) scene.getWindow();
+
+            // Remplacez la scène actuelle par la nouvelle page chargée
+            scene.setRoot(root);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void openCheckoutPage() {

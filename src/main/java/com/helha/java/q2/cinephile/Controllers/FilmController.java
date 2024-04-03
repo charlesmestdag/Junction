@@ -89,7 +89,7 @@ public class FilmController implements Initializable {
                     "-fx-padding: 10px 20px; " +
                     "-fx-background-radius: 5px; " +
                     "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);"); /* Effet d'ombre */
-            button.setOnMouseClicked(event -> openTestPage());
+            button.setOnMouseClicked(event -> openSchedulePage(film));
 
 
 
@@ -109,10 +109,12 @@ public class FilmController implements Initializable {
 
     }
 
-    private void openTestPage() {
+    private void openSchedulePage(Film film) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/SchedulePage.fxml"));
             Parent root = loader.load();
+            ScheduleController scheduleController = loader.getController();
+            scheduleController.setFilm(film);
 
             // Obtenez la scène actuelle
             Scene scene = flowPane.getScene();
