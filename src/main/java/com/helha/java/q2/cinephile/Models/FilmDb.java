@@ -1,7 +1,3 @@
-/**
- * Cette classe représente un accès à une base de données de films.
- * Elle fournit des méthodes pour récupérer des informations sur les films à partir de la base de données.
- */
 package com.helha.java.q2.cinephile.Models;
 
 import java.sql.*;
@@ -11,9 +7,6 @@ import java.util.List;
 public class FilmDb {
     private Connection conn;
 
-    /**
-     * Constructeur de la classe FilmDb. Initialise la connexion à la base de données.
-     */
     public FilmDb() {
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:resources/films.db");
@@ -22,11 +15,6 @@ public class FilmDb {
         }
     }
 
-    /**
-     * Récupère tous les films à partir de la base de données.
-     *
-     * @return Une liste contenant tous les films récupérés de la base de données.
-     */
     public List<Film> getAllFilms() {
         List<Film> films = new ArrayList<>();
         try {
@@ -46,4 +34,3 @@ public class FilmDb {
         return films;
     }
 }
-

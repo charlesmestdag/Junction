@@ -1,13 +1,10 @@
 package com.helha.java.q2.cinephile.Controllers;
-
-import com.helha.java.q2.cinephile.Models.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -16,9 +13,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * Contrôleur pour la vue de l'horaire des films.
- */
 public class ScheduleController {
 
     @FXML
@@ -61,71 +55,34 @@ public class ScheduleController {
     private Label movietitle;
 
     @FXML
+    private Button otherschedulebtn;
+
+    @FXML
     private AnchorPane tablepane;
 
     @FXML
     private AnchorPane toppane;
 
     @FXML
-    private Button backButton;
-
-    private Film currentFilm; // Attribut pour stocker le film actuellement affiché
-
-
-    /**
-     * Initialise le contrôleur.
-     */
-    @FXML
     private void initialize() {
         buyticketbtn.setOnAction(event -> openCheckoutPage());
-        backButton.setOnAction(event -> goBack());
     }
 
-    /**
-     * Définit le film à afficher sur l'interface utilisateur.
-     *
-     * @param film Le film à afficher.
-     */
-    public void setFilm(Film film) {
-        currentFilm = film;
-
-        movietitle.setText(film.getTitre());
-        movieduration.setText(film.getDuree());
-    }
-
-    /**
-     * Gère l'action de retour en arrière vers la vue précédente.
-     */
-    private void goBack() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/FilmView.fxml"));
-            Parent root = loader.load();
-
-            // Obtient la scène actuelle
-            Scene scene = backButton.getScene();
-            Stage stage = (Stage) scene.getWindow();
-
-            // Remplace la scène actuelle par la nouvelle page chargée
-            scene.setRoot(root);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Ouvre la page de paiement pour acheter des billets.
-     */
     private void openCheckoutPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/checkout.fxml"));
             Parent root = loader.load();
 
-            // Obtient la scène actuelle
+            //Stage stage = new Stage();
+            //stage.setScene(new Scene(root));
+            //stage.show();
+
+
+            // Obtenez la scène actuelle
             Scene scene = mainmoviespane.getScene();
             Stage stage = (Stage) scene.getWindow();
 
-            // Remplace la scène actuelle par la nouvelle page chargée
+            // Remplacez la scène actuelle par la nouvelle page chargée
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -136,25 +93,4 @@ public class ScheduleController {
         }
     }
 
-    /**
-     * Affiche le synopsis du film dans une boîte de dialogue.
-     *
-     * @param event L'événement de clic sur le bouton "View Movie Details".
-     */
-
-    @FXML
-    private void showMovieDetails(ActionEvent event) {
-        if (currentFilm != null) {
-            // Récupérer le synopsis du film
-            String texte = currentFilm.getTexte();
-
-            // Afficher le synopsis dans une boîte de dialogue
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Movie Synopsis");
-            alert.setHeaderText(currentFilm.getTitre());
-            alert.setContentText(texte);
-            alert.showAndWait();
-        }
-    }
 }
-
