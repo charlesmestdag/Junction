@@ -19,27 +19,27 @@
          <children>
             <AnchorPane fx:id="selectPane" layoutX="166.0" layoutY="90.0" prefHeight="580.0" prefWidth="550.0" style="-fx-background-color: #F5F5F5;" styleClass="tiles">
                <children>
-                  <Label alignment="CENTER" layoutX="241.0" layoutY="76.0" prefHeight="40.0" prefWidth="117.0" text="Quantity" textFill="#020438">
+                  <Label alignment="CENTER" layoutX="210.0" layoutY="52.0" prefHeight="40.0" prefWidth="160.0" text="Nombre de Places" textFill="#020438">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="391.0" layoutY="76.0" prefHeight="40.0" prefWidth="117.0" text="Price" textFill="#020438">
+                  <Label alignment="CENTER" layoutX="386.0" layoutY="52.0" prefHeight="40.0" prefWidth="117.0" text="Prix" textFill="#020438">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label layoutX="61.0" layoutY="248.0" prefHeight="40.0" prefWidth="117.0" text="Senior" textFill="#020438">
+                  <Label layoutX="61.0" layoutY="248.0" prefHeight="40.0" prefWidth="117.0" text="Seniors" textFill="#020438">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label layoutX="61.0" layoutY="198.0" prefHeight="40.0" prefWidth="117.0" text="Child" textFill="#020438">
+                  <Label layoutX="61.0" layoutY="198.0" prefHeight="40.0" prefWidth="117.0" text="Enfants (&lt;14)" textFill="#020438">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label layoutX="61.0" layoutY="148.0" prefHeight="40.0" prefWidth="117.0" text="Adult" textFill="#020438">
+                  <Label layoutX="61.0" layoutY="148.0" prefHeight="40.0" prefWidth="117.0" text="Adultes" textFill="#020438">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -59,12 +59,12 @@
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="58.0" layoutY="360.0" prefHeight="47.0" prefWidth="88.0" text="Total:" textFill="#020438">
+                  <Label alignment="CENTER" layoutX="57.0" layoutY="371.0" prefHeight="47.0" prefWidth="88.0" text="Total :" textFill="#020438">
                      <font>
                         <Font size="29.0" />
                      </font>
                   </Label>
-                  <Button fx:id="checkoutbtn" layoutX="290.0" layoutY="490.0" prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #009688; -fx-background-radius: 20;" text="Pay" textFill="WHITE">
+                  <Button fx:id="checkoutbtn" layoutX="290.0" layoutY="490.0" prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: #009688; -fx-background-radius: 20;" text="Payer" textFill="WHITE">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -72,7 +72,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Label fx:id="ticketPriceLabel" layoutX="165.0" layoutY="360.0" prefHeight="47.0" prefWidth="250.0" textFill="#020438">
+                  <Label fx:id="ticketPriceLabel" layoutX="170.0" layoutY="370.0" prefHeight="47.0" prefWidth="250.0" textFill="#020438">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -82,13 +82,13 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="40.0" layoutY="25.0" text="Choose Your Ticket" textFill="#009688" underline="true">
+                  <Label layoutX="48.0" layoutY="10.0" text="Vos Tickets" textFill="#009688">
                      <font>
                         <Font name="Microsoft Sans Serif" size="27.0" />
                      </font>
                   </Label>
                   <CheckBox fx:id="checkbox" disable="true" layoutX="367.0" layoutY="364.0" style="-fx-opacity: 1;" text="Selected Seats" textFill="#0d2c54" visible="false" />
-                  <Button fx:id="resetbtn" layoutX="100.0" layoutY="490.0" prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: AF0A0AFF; -fx-background-radius: 20;" text="Reset" textFill="WHITE" onAction="#handleResetButton">
+                  <Button fx:id="resetbtn" layoutX="100.0" layoutY="490.0" onAction="#handleResetButton" prefHeight="50.0" prefWidth="160.0" style="-fx-background-color: AF0A0AFF; -fx-background-radius: 20;" text="Annuler" textFill="WHITE">
                      <font>
                         <Font size="19.0" />
                      </font>

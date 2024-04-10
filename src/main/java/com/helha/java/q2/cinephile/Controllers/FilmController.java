@@ -89,7 +89,7 @@ public class FilmController implements Initializable {
                     "-fx-padding: 10px 20px; " +
                     "-fx-background-radius: 5px; " +
                     "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);"); /* Effet d'ombre */
-            button.setOnMouseClicked(event -> openTestPage());
+            button.setOnMouseClicked(event -> openSchedulePage(film));
 
 
 
@@ -109,10 +109,12 @@ public class FilmController implements Initializable {
 
     }
 
-    private void openTestPage() {
+    private void openSchedulePage(Film film) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/SchedulePage.fxml"));
             Parent root = loader.load();
+            ScheduleController scheduleController = loader.getController();
+            scheduleController.setFilm(film);
 
             // Obtenez la scène actuelle
             Scene scene = flowPane.getScene();
@@ -140,19 +142,16 @@ public class FilmController implements Initializable {
         scaleIn.setToX(1);
         scaleIn.setInterpolator(Interpolator.EASE_BOTH);
 
-        // Transition de mise à l'échelle pour le texte
         ScaleTransition scaleTextIn = new ScaleTransition(Duration.seconds(0.25), texte);
         scaleTextIn.setToX(1.5); // Ajustez la valeur pour modifier l'effet d'agrandissement
         scaleTextIn.setToY(1.5); // Ajustez la valeur pour modifier l'effet d'agrandissement
         scaleTextIn.setInterpolator(Interpolator.EASE_BOTH);
 
-        // Transition de mise à l'échelle pour le bouton
         ScaleTransition scaleButtonIn = new ScaleTransition(Duration.seconds(0.25), button);
         scaleButtonIn.setToX(1.5); // Ajustez la valeur pour modifier l'effet d'agrandissement
         scaleButtonIn.setToY(1.5); // Ajustez la valeur pour modifier l'effet d'agrandissement
         scaleButtonIn.setInterpolator(Interpolator.EASE_BOTH);
 
-        // Exécution des transitions
         scaleOut.setOnFinished(event -> {
             fromImageView.setOpacity(0);
             toPane.setOpacity(1);
@@ -166,8 +165,15 @@ public class FilmController implements Initializable {
         scaleOut.play();
     }
 
+    /**
+     * Réalise une transition pour faire pivoter l'image lorsque la souris quitte la zone du film.
+     *
+     * @param fromImageView L'image actuelle.
+     * @param toPane        L'image à afficher.
+     * @param texte         Le texte à afficher.
+     * @param button        Le bouton à afficher.
+     */
     private void flipBackImage(ImageView fromImageView, ImageView toPane, Text texte, Button button) {
-
         PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
         ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.25), fromImageView);
         scaleOut.setToX(0);
@@ -176,11 +182,11 @@ public class FilmController implements Initializable {
         ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.25), toPane);
         scaleIn.setToX(1);
         scaleIn.setInterpolator(Interpolator.EASE_BOTH);
-        ScaleTransition scaleT = new ScaleTransition(Duration.seconds(0.25), texte);
-        scaleT.setToX(1);
-        scaleT.setInterpolator(Interpolator.EASE_BOTH);
 
-        // Transition de mise à l'échelle pour le bouton
+        ScaleTransition scaleTextIn = new ScaleTransition(Duration.seconds(0.25), texte);
+        scaleTextIn.setToX(1);
+        scaleTextIn.setInterpolator(Interpolator.EASE_BOTH);
+
         ScaleTransition scaleButtonIn = new ScaleTransition(Duration.seconds(0.25), button);
         scaleButtonIn.setToX(1.5); // Ajustez la valeur pour modifier l'effet d'agrandissement
         scaleButtonIn.setToY(1.5); // Ajustez la valeur pour modifier l'effet d'agrandissement
@@ -190,20 +196,22 @@ public class FilmController implements Initializable {
             texte.setOpacity(0);
             button.setOpacity(0);
             scaleOut.setOnFinished(event -> {
-
                 fromImageView.setOpacity(0);
                 toPane.setOpacity(1);
                 scaleIn.play();
-                scaleT.play();
-
+                scaleTextIn.play();
             });
             scaleOut.play();
         });
         pause.play();
-
     }
 
-
+    /**
+     * Divise le texte du titre si celui-ci dépasse une certaine longueur.
+     *
+     * @param texte Le texte à traiter.
+     * @param titre Le titre du film.
+     */
     private void splitTextIfNeeded(Text texte, String titre) {
         if (titre.length() > 20) {
             int splitIndex = titre.lastIndexOf(" ", 20);
@@ -214,8 +222,6 @@ public class FilmController implements Initializable {
             }
         }
     }
-
-
-
 }
+
 
