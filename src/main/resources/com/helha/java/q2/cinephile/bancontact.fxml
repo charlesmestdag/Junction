@@ -14,4 +14,3 @@
         <Label fx:id="resultLabel" layoutX="120.0" layoutY="160.0" />
     </children>
 </AnchorPane>
-

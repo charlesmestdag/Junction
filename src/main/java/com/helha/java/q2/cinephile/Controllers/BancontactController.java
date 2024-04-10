@@ -47,4 +47,3 @@ public class BancontactController {
         delay.play();
     }
 }
-

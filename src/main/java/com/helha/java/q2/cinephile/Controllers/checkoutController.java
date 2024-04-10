@@ -109,4 +109,3 @@ public class checkoutController {
         ticketPriceLabel.setText(String.format("%.2f €", totalPrice));
     }
 }
-
