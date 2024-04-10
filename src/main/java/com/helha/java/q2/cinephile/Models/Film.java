@@ -14,6 +14,7 @@ public class Film {
         this.duree = duree;
     }
 
+
     public String getTitre() {
         return titre;
     }
