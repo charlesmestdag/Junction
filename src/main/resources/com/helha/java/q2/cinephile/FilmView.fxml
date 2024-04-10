@@ -44,5 +44,4 @@
                   -fx-background-color: #B8CBD0;">
         </FlowPane>
     </ScrollPane>
-
 </VBox>
