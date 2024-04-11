@@ -6,8 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,22 +18,25 @@ import java.io.IOException;
 public class checkoutController {
 
     @FXML
-    private ComboBox<Integer> adultComboBox;
+    private TextField adultTextField;
 
     @FXML
-    private ComboBox<Integer> childComboBox;
+    private TextField childTextField;
 
     @FXML
-    private ComboBox<Integer> seniorComboBox;
+    private TextField seniorTextField;
 
     @FXML
-    private ComboBox<Integer> pmrComboBox;
+    private TextField pmrTextField;
 
     @FXML
     private Button checkoutbtn;
 
     @FXML
     private Button resetbtn;
+
+    @FXML
+    private Button backButton;
 
     @FXML
     private Label ticketPriceLabel;
@@ -49,12 +52,14 @@ public class checkoutController {
     @FXML
     private void initialize() {
         checkoutbtn.setOnAction(event -> openBancontactPage());
+        backButton.setOnAction(event -> goBack());
 
-        // Ajout d'écouteurs aux ComboBox pour mettre à jour le prix total
-        adultComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
-        childComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
-        seniorComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
-        pmrComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
+
+        // Ajout d'écouteurs aux TextField pour mettre à jour le prix total
+        adultTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
+        childTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
+        seniorTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
+        pmrTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
     }
 
     /**
@@ -76,38 +81,151 @@ public class checkoutController {
     }
 
     /**
-     * Réinitialise les ComboBox de sélection.
+     * Réinitialise les TextField de sélection.
      *
      * @param event L'événement de bouton.
      */
     @FXML
     private void handleResetButton(ActionEvent event) {
-        if (adultComboBox != null) {
-            adultComboBox.getSelectionModel().clearSelection();
-        }
-        if (childComboBox != null) {
-            childComboBox.getSelectionModel().clearSelection();
-        }
-        if (seniorComboBox != null) {
-            seniorComboBox.getSelectionModel().clearSelection();
-        }
-        if (pmrComboBox != null) {
-            pmrComboBox.getSelectionModel().clearSelection();
+        adultTextField.clear();
+        childTextField.clear();
+        seniorTextField.clear();
+        pmrTextField.clear();
+    }
+
+    /**
+     * Décrémente le nombre d'adultes.
+     */
+    @FXML
+    private void decrementAdult() {
+        int count = parseTextFieldValue(adultTextField.getText());
+        if (count > 0) {
+            adultTextField.setText(String.valueOf(count - 1));
+            updateTotalPrice();
         }
     }
 
     /**
-     * Met à jour le prix total en fonction des sélections dans les ComboBox.
+     * Incrémente le nombre d'adultes.
+     */
+    @FXML
+    private void incrementAdult() {
+        int count = parseTextFieldValue(adultTextField.getText());
+        adultTextField.setText(String.valueOf(count + 1));
+        updateTotalPrice();
+    }
+
+    /**
+     * Décrémente le nombre d'enfants.
+     */
+    @FXML
+    private void decrementChild() {
+        int count = parseTextFieldValue(childTextField.getText());
+        if (count > 0) {
+            childTextField.setText(String.valueOf(count - 1));
+            updateTotalPrice();
+        }
+    }
+
+    /**
+     * Incrémente le nombre d'enfants.
+     */
+    @FXML
+    private void incrementChild() {
+        int count = parseTextFieldValue(childTextField.getText());
+        childTextField.setText(String.valueOf(count + 1));
+        updateTotalPrice();
+    }
+
+    /**
+     * Décrémente le nombre de seniors.
+     */
+    @FXML
+    private void decrementSenior() {
+        int count = parseTextFieldValue(seniorTextField.getText());
+        if (count > 0) {
+            seniorTextField.setText(String.valueOf(count - 1));
+            updateTotalPrice();
+        }
+    }
+
+    /**
+     * Incrémente le nombre de seniors.
+     */
+    @FXML
+    private void incrementSenior() {
+        int count = parseTextFieldValue(seniorTextField.getText());
+        seniorTextField.setText(String.valueOf(count + 1));
+        updateTotalPrice();
+    }
+
+    /**
+     * Décrémente le nombre de PMR.
+     */
+    @FXML
+    private void decrementPmr() {
+        int count = parseTextFieldValue(pmrTextField.getText());
+        if (count > 0) {
+            pmrTextField.setText(String.valueOf(count - 1));
+            updateTotalPrice();
+        }
+    }
+
+    /**
+     * Incrémente le nombre de PMR.
+     */
+    @FXML
+    private void incrementPmr() {
+        int count = parseTextFieldValue(pmrTextField.getText());
+        pmrTextField.setText(String.valueOf(count + 1));
+        updateTotalPrice();
+    }
+
+    /**
+     * Met à jour le prix total en fonction des valeurs dans les TextField.
      */
     private void updateTotalPrice() {
-        int adultCount = adultComboBox.getValue() != null ? adultComboBox.getValue() : 0;
-        int childCount = childComboBox.getValue() != null ? childComboBox.getValue() : 0;
-        int seniorCount = seniorComboBox.getValue() != null ? seniorComboBox.getValue() : 0;
-        int pmrCount = pmrComboBox.getValue() != null ? pmrComboBox.getValue() : 0;
+        int adultCount = parseTextFieldValue(adultTextField.getText());
+        int childCount = parseTextFieldValue(childTextField.getText());
+        int seniorCount = parseTextFieldValue(seniorTextField.getText());
+        int pmrCount = parseTextFieldValue(pmrTextField.getText());
 
         double totalPrice = (adultCount * adultPrice) + (childCount * childPrice) + (seniorCount * seniorPrice) + (pmrCount * pmrPrice);
         ticketPriceLabel.setText(String.format("%.2f €", totalPrice));
     }
+
+    /**
+     * Parse la valeur d'un TextField en tant qu'entier, en cas d'erreur renvoie 0.
+     * @param text La valeur du TextField à parser.
+     * @return L'entier parsé ou 0 en cas d'erreur.
+     */
+    private int parseTextFieldValue(String text) {
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Gère l'action de retour en arrière vers la vue précédente.
+     */
+    private void goBack() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/SchedulePage.fxml"));
+            Parent root = loader.load();
+
+            // Obtient la scène actuelle
+            Scene scene = backButton.getScene();
+            Stage stage = (Stage) scene.getWindow();
+
+            // Remplace la scène actuelle par la nouvelle page chargée
+            scene.setRoot(root);
+            stage.show();
+            stage.setWidth(1150);
+            stage.setHeight(800);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
-
-
