@@ -75,6 +75,7 @@ public class checkoutController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -224,6 +225,7 @@ public class checkoutController {
             stage.show();
             stage.setWidth(1150);
             stage.setHeight(800);
+            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }

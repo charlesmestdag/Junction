@@ -131,6 +131,7 @@ public class ScheduleController {
             stage.show();
             stage.setWidth(875);
             stage.setHeight(800);
+            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }

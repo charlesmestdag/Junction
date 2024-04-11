@@ -126,6 +126,7 @@ public class FilmController implements Initializable {
             stage.show();
             stage.setWidth(1150);
             stage.setHeight(800);
+            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
