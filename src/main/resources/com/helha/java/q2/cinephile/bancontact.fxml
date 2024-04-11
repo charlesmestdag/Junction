@@ -9,8 +9,8 @@
     <children>
         <Label layoutX="39.0" layoutY="40.0" text="Montant :" />
         <TextField fx:id="montantField" layoutX="120.0" layoutY="36.0" promptText="Entrez le montant" />
-        <Button layoutX="50.0" layoutY="100.0" mnemonicParsing="false" text="Accepter" />
-        <Button layoutX="200.0" layoutY="100.0" mnemonicParsing="false" text="Refuser" />
+        <Button layoutX="50.0" layoutY="100.0" mnemonicParsing="false" text="Accepter" onAction="#handleAcceptButton"/>
+        <Button layoutX="200.0" layoutY="100.0" mnemonicParsing="false" text="Refuser" onAction="#handleRefuseButton" />
         <Label fx:id="resultLabel" layoutX="120.0" layoutY="160.0" />
     </children>
 </AnchorPane>
