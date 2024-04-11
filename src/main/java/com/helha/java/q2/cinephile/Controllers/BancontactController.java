@@ -44,12 +44,12 @@ public class BancontactController {
     @FXML
     private void handleAcceptButton() {
         resultLabel.setText("Le paiement de " + montant + " est accepté");
-        // Attendez 5 secondes puis fermez la fenêtre Bancontact et retournez à la page de schedule
+        // Attend 5 secondes puis ferme la fenêtre Bancontact et retourne à la page de schedule
         PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished(event -> {
             Stage stage = (Stage) resultLabel.getScene().getWindow();
             stage.close();
-            // Retournez à la page de schedule ici
+            // Retourne à la page de schedule ici
         });
         delay.play();
     }
@@ -62,12 +62,12 @@ public class BancontactController {
     @FXML
     private void handleRefuseButton() {
         resultLabel.setText("Le paiement de " + montant + " est refusé");
-        // Attendez 5 secondes puis fermez la fenêtre Bancontact et retournez à la page de schedule
+        // Attend 5 secondes puis ferme la fenêtre Bancontact et retourne à la page de schedule
         PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished(event -> {
             Stage stage = (Stage) resultLabel.getScene().getWindow();
             stage.close();
-            // Retournez à la page de schedule ici
+            // Retourne à la page de schedule ici
         });
         delay.play();
     }

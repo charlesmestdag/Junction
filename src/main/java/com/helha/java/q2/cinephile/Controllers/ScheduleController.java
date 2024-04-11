@@ -146,10 +146,10 @@ public class ScheduleController {
     @FXML
     private void showMovieDetails(ActionEvent event) {
         if (currentFilm != null) {
-            // Récupérer le synopsis du film
+            // Récupére le synopsis du film
             String texte = currentFilm.getTexte();
 
-            // Afficher le synopsis dans une boîte de dialogue
+            // Affiche le synopsis dans une boîte de dialogue
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Movie Synopsis");
             alert.setHeaderText(currentFilm.getTitre());

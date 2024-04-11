@@ -67,11 +67,11 @@ public class checkoutController {
      */
     private void openBancontactPage() {
         try {
-            String montant = ticketPriceLabel.getText(); // Récupérez le montant total affiché
+            String montant = ticketPriceLabel.getText(); // Récupére le montant total affiché
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/bancontact.fxml"));
             Parent root = loader.load();
             BancontactController bancontactController = loader.getController();
-            bancontactController.setMontant(montant); // Passez le montant à la page Bancontact
+            bancontactController.setMontant(montant); // Passe le montant à la page Bancontact
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
