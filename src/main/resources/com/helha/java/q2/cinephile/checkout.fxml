@@ -11,6 +11,7 @@
 
 <!-- #B8124E; -->
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane fx:id="mainpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.helha.java.q2.cinephile.Controllers.checkoutController">
    <children>
       <AnchorPane layoutX="-3.0" prefHeight="700.0" prefWidth="874.0">
@@ -116,6 +117,7 @@
                   <Button layoutX="330.0" layoutY="245.0" mnemonicParsing="false" onAction="#incrementSenior" prefHeight="25.0" prefWidth="25.0" text="+" />
                   <Button layoutX="235.0" layoutY="295.0" mnemonicParsing="false" onAction="#decrementPmr" prefHeight="25.0" prefWidth="25.0" text="-" />
                   <Button layoutX="330.0" layoutY="295.0" mnemonicParsing="false" onAction="#incrementPmr" prefHeight="25.0" prefWidth="25.0" text="+" />
+                  <ComboBox fx:id="paymentMethodComboBox" layoutX="220.0" layoutY="445.0" prefWidth="150" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="toppane" prefHeight="44.0" prefWidth="866.0" style="-fx-background-color: #0E8585;">

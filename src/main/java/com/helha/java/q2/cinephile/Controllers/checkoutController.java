@@ -1,13 +1,14 @@
 package com.helha.java.q2.cinephile.Controllers;
 
+import com.helha.java.q2.cinephile.patternFactory.BancontactPaymentMethod;
+import com.helha.java.q2.cinephile.patternFactory.CreditCardPaymentMethod;
+import com.helha.java.q2.cinephile.patternFactory.PaymentMethod;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -46,6 +47,11 @@ public class checkoutController {
     private double seniorPrice = 7.50;
     private double pmrPrice = 7.50; // Prix pour les personnes à mobilité réduite
 
+    private PaymentMethod paymentMethod;
+
+    @FXML
+    private ComboBox<String> paymentMethodComboBox;
+
     /**
      * Initialise le contrôleur.
      */
@@ -54,6 +60,8 @@ public class checkoutController {
         checkoutbtn.setOnAction(event -> openBancontactPage());
         backButton.setOnAction(event -> goBack());
 
+        paymentMethodComboBox.getItems().addAll("Credit Card", "Bancontact");
+        paymentMethodComboBox.setValue("Credit Card"); // Set a default value
 
         // Ajout d'écouteurs aux TextField pour mettre à jour le prix total
         adultTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
@@ -62,20 +70,52 @@ public class checkoutController {
         pmrTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
     }
 
+
     /**
-     * Ouvre la page de paiement Bancontact.
+     * Sets the payment method to be used for the transaction.
+     *
+     * @param paymentMethod The payment method to be set.
+     */
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+
+    /**
+     * Opens the Bancontact payment page based on the selected payment method.
+     * Retrieves the total amount displayed, sets the payment strategy based on the user's choice,
+     * and initiates the payment transaction. If the amount is empty, displays an error message.
      */
     private void openBancontactPage() {
         try {
-            String montant = ticketPriceLabel.getText(); // Récupére le montant total affiché
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/bancontact.fxml"));
-            Parent root = loader.load();
-            BancontactController bancontactController = loader.getController();
-            bancontactController.setMontant(montant); // Passe le montant à la page Bancontact
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-            stage.setResizable(false);
+            String montant = ticketPriceLabel.getText().replace(",", ".").replace(" €", ""); // Récupére le montant total affiché
+            if (!montant.isEmpty()) {
+                // Set the payment strategy based on the user's choice
+                String paymentMethodChoice = paymentMethodComboBox.getValue();
+                if (paymentMethodChoice.equals("Credit Card")) {
+                    paymentMethod = new CreditCardPaymentMethod();
+                } else if (paymentMethodChoice.equals("Bancontact")) {
+                    paymentMethod = new BancontactPaymentMethod();
+                }
+
+                paymentMethod.pay(Double.parseDouble(montant));
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/bancontact.fxml"));
+                Parent root = loader.load();
+                BancontactController bancontactController = loader.getController();
+                bancontactController.setMontant(montant); // Passe le montant à la page Bancontact
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+                stage.setResizable(false);
+            } else {
+                // handle the case where montant is empty
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("Payment Error");
+                alert.setContentText("Please enter a valid amount!");
+                alert.showAndWait();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
