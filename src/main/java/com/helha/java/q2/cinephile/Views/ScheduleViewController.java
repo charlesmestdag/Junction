@@ -1,10 +1,8 @@
-package com.helha.java.q2.cinephile.Controllers;
-
+package com.helha.java.q2.cinephile.Views;
 import com.helha.java.q2.cinephile.Models.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,7 +17,7 @@ import java.io.IOException;
 /**
  * Contrôleur pour la vue de l'horaire des films.
  */
-public class ScheduleController {
+public class ScheduleViewController {
 
     @FXML
     private AnchorPane SCREEN1;
@@ -61,6 +59,9 @@ public class ScheduleController {
     private Label movietitle;
 
     @FXML
+    private Button otherschedulebtn;
+
+    @FXML
     private AnchorPane tablepane;
 
     @FXML
@@ -88,7 +89,6 @@ public class ScheduleController {
      */
     public void setFilm(Film film) {
         currentFilm = film;
-
         movietitle.setText(film.getTitre());
         movieduration.setText(film.getDuree());
     }
@@ -131,12 +131,10 @@ public class ScheduleController {
             stage.show();
             stage.setWidth(875);
             stage.setHeight(800);
-            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /**
      * Affiche le synopsis du film dans une boîte de dialogue.
      *

@@ -1,4 +1,4 @@
-package com.helha.java.q2.cinephile.Controllers;
+package com.helha.java.q2.cinephile.Views;
 
 import com.helha.java.q2.cinephile.patternFactory.BancontactPaymentMethod;
 import com.helha.java.q2.cinephile.patternFactory.CreditCardPaymentMethod;
@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Contrôleur pour la vue de la page de paiement.
  */
-public class checkoutController {
+public class checkoutViewController {
 
     @FXML
     private TextField adultTextField;
@@ -47,10 +47,12 @@ public class checkoutController {
     private double seniorPrice = 7.50;
     private double pmrPrice = 7.50; // Prix pour les personnes à mobilité réduite
 
+
     private PaymentMethod paymentMethod;
 
     @FXML
     private ComboBox<String> paymentMethodComboBox;
+
 
     /**
      * Initialise le contrôleur.
@@ -69,7 +71,6 @@ public class checkoutController {
         seniorTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
         pmrTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
     }
-
 
     /**
      * Sets the payment method to be used for the transaction.
@@ -102,8 +103,8 @@ public class checkoutController {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/bancontact.fxml"));
                 Parent root = loader.load();
-                BancontactController bancontactController = loader.getController();
-                bancontactController.setMontant(montant); // Passe le montant à la page Bancontact
+                BancontactViewController bancontactViewController = loader.getController();
+                bancontactViewController.setMontant(montant); // Passe le montant à la page Bancontact
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();
@@ -133,6 +134,7 @@ public class checkoutController {
         seniorTextField.clear();
         pmrTextField.clear();
     }
+
 
     /**
      * Décrémente le nombre d'adultes.
@@ -222,6 +224,8 @@ public class checkoutController {
         updateTotalPrice();
     }
 
+
+
     /**
      * Met à jour le prix total en fonction des valeurs dans les TextField.
      */
@@ -234,6 +238,7 @@ public class checkoutController {
         double totalPrice = (adultCount * adultPrice) + (childCount * childPrice) + (seniorCount * seniorPrice) + (pmrCount * pmrPrice);
         ticketPriceLabel.setText(String.format("%.2f €", totalPrice));
     }
+
 
     /**
      * Parse la valeur d'un TextField en tant qu'entier, en cas d'erreur renvoie 0.

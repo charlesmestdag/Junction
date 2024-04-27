@@ -1,9 +1,10 @@
 package com.helha.java.q2.cinephile.Controllers;
 
-import com.helha.java.q2.cinephile.Models.FilmDb;
-import com.helha.java.q2.cinephile.Views.FilmView;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * Classe principale de l'application Cinephile.
@@ -15,12 +16,7 @@ public class Main extends Application {
      *
      * @param primaryStage La scène principale de l'application.
      */
-    @Override
-    public void start(Stage primaryStage) {
-        FilmView view = new FilmView(primaryStage);
-        FilmDb model = new FilmDb();
-        FilmController controller = new FilmController(view, model);
-    }
+
 
     /**
      * Méthode principale du programme.
@@ -29,6 +25,12 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws IOException, URISyntaxException {
+        FilmController filmController = new FilmController();
+        filmController.start(primaryStage);
     }
 }
 

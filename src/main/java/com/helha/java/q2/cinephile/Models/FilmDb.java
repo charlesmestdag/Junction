@@ -7,6 +7,9 @@ import java.util.List;
 public class FilmDb {
     private Connection conn;
 
+    /**
+     * Constructeur de la classe FilmDb. Initialise la connexion à la base de données.
+     */
     public FilmDb() {
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:resources/films.db");
@@ -14,6 +17,12 @@ public class FilmDb {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Récupère tous les films à partir de la base de données.
+     *
+     * @return Une liste contenant tous les films récupérés de la base de données.
+     */
 
     public List<Film> getAllFilms() {
         List<Film> films = new ArrayList<>();

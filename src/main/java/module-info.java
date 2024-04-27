@@ -14,5 +14,6 @@ module com.helha.java.q2.cinephile {
     requires com.almasb.fxgl.all;
     requires java.sql;
     opens com.helha.java.q2.cinephile.Controllers to javafx.fxml;
+    opens com.helha.java.q2.cinephile.Views to javafx.fxml;
 
 }

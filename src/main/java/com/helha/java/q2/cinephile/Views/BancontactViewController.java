@@ -1,4 +1,4 @@
-package com.helha.java.q2.cinephile.Controllers;
+package com.helha.java.q2.cinephile.Views;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,7 +8,7 @@ import javafx.util.Duration;
 /**
  * Contrôleur pour la page Bancontact.
  */
-public class BancontactController {
+public class BancontactViewController {
     /**
      * Champ de texte pour afficher le montant.
      */

@@ -1,74 +1,56 @@
-package com.helha.java.q2.cinephile.Controllers;
+package com.helha.java.q2.cinephile.Views;
 
+import com.helha.java.q2.cinephile.Controllers.FilmController;
 import com.helha.java.q2.cinephile.Models.Film;
 import com.helha.java.q2.cinephile.Models.FilmDb;
-import com.helha.java.q2.cinephile.Views.FilmViewController;
+import javafx.animation.Interpolator;
+import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class FilmController {
-    private FilmViewController filmView;
-    private FilmDb filmDb;
-
-    public FilmController() {
-        this.filmDb = new FilmDb();
-        this.filmView = filmView;
-
-    }
-    public void start(Stage primaryStage) throws IOException, URISyntaxException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/FilmView.fxml"));
-        Parent root = loader.load();
-        filmView = loader.getController();
-        filmView.setFilmController(this); // Passer une instance de FilmController au FilmViewController
-
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("Cinephile");
-        primaryStage.setWidth(1000); // Largeur en pixels
-        primaryStage.setHeight(700); // Hauteur en pixels
-        primaryStage.show();
-        loadFilms();
-    }
-    private void loadFilms() throws MalformedURLException, URISyntaxException {
-        List<Film> films = filmDb.getAllFilms();
-        filmView.displayFilms(films);
-    }
-
-
-
-
-    /*
-@FXML
+public class FilmViewController implements Initializable {
+    @FXML
     public FlowPane flowPane;
 
     private FilmDb filmDb;
+    private FilmController filmController;
 
 
-
-    public FilmController() {
+    public FilmViewController() {
+    }
+    public void setFilmController(FilmController filmController) {
+        this.filmController = filmController;
     }
 
-    public FilmController(FilmView view, FilmDb model) {
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        filmDb = new FilmDb();
-        try {
-            loadImages();
-        } catch (MalformedURLException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
-    private void loadImages() throws MalformedURLException, URISyntaxException {
-        List<Film> films = filmDb.getAllFilms();
+    public void displayFilms(List<Film> films) throws MalformedURLException, URISyntaxException {
         for (Film film : films) {
             ImageView FrontImage = new ImageView(new Image(film.getImage()));
             FrontImage.setFitWidth(200);
@@ -101,7 +83,7 @@ public class FilmController {
                     "-fx-font-size: 14px; " +
                     "-fx-padding: 10px 20px; " +
                     "-fx-background-radius: 5px; " +
-                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);"); // Effet d'ombre
+                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);"); /* Effet d'ombre */
             button.setOnMouseClicked(event -> openSchedulePage(film));
 
 
@@ -126,7 +108,7 @@ public class FilmController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/SchedulePage.fxml"));
             Parent root = loader.load();
-            ScheduleController scheduleController = loader.getController();
+            ScheduleViewController scheduleController = loader.getController();
             scheduleController.setFilm(film);
 
             // Obtenez la scène actuelle
@@ -139,7 +121,6 @@ public class FilmController {
             stage.show();
             stage.setWidth(1150);
             stage.setHeight(800);
-            stage.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -187,7 +168,6 @@ public class FilmController {
      * @param texte         Le texte à afficher.
      * @param button        Le bouton à afficher.
      */
-    /*
     private void flipBackImage(ImageView fromImageView, ImageView toPane, Text texte, Button button) {
         PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
         ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.25), fromImageView);
@@ -227,7 +207,6 @@ public class FilmController {
      * @param texte Le texte à traiter.
      * @param titre Le titre du film.
      */
-    /*
     private void splitTextIfNeeded(Text texte, String titre) {
         if (titre.length() > 20) {
             int splitIndex = titre.lastIndexOf(" ", 20);
@@ -238,8 +217,45 @@ public class FilmController {
             }
         }
     }
-    */
 }
 
+
+
+
+/*
+
+
+public class FilmViewController {
+    private Stage primaryStage;
+
+
+    public FilmViewController(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        init();
+    }
+
+
+    private void init() {
+        try {
+            // Charger le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/FilmView.fxml"));
+
+            Parent root = loader.load();
+            // Créer une nouvelle scène
+            Scene scene = new Scene(root);
+
+            // Configurer la scène et afficher la fenêtre principale
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Liste des Films");
+            primaryStage.setWidth(1000); // Largeur en pixels
+            primaryStage.setHeight(700); // Hauteur en pixels
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+ */
 
 
