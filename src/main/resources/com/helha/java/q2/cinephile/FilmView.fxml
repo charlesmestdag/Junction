@@ -5,6 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.helha.java.q2.cinephile.Views.FilmViewController">
@@ -13,7 +14,7 @@
     >
         <!-- Menu "Fichier" -->
         <Menu text="Compte" style="-fx-background-color: #137C8B;-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-end-margin: 10px " >
-            <MenuItem text="Se Connecter"/>
+            <MenuItem text="Se Connecter" onAction="#handleConnexionButton"/>
         </Menu>
 
         <!-- Menu "Édition" -->

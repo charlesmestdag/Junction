@@ -72,6 +72,8 @@ public class ScheduleViewController {
 
     private Film currentFilm; // Attribut pour stocker le film actuellement affiché
 
+    private NavListener listener;
+
 
     /**
      * Initialise le contrôleur.
@@ -117,24 +119,19 @@ public class ScheduleViewController {
      * Ouvre la page de paiement pour acheter des billets.
      */
     private void openCheckoutPage() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/checkout.fxml"));
-            Parent root = loader.load();
-
-            // Obtient la scène actuelle
-            Scene scene = mainmoviespane.getScene();
-            Stage stage = (Stage) scene.getWindow();
-
-            // Remplace la scène actuelle par la nouvelle page chargée
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-            stage.setWidth(875);
-            stage.setHeight(800);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (listener != null){
+            listener.openCheckoutPage();
         }
+
     }
+    public void setListener(NavListener listener) {
+        this.listener = listener;
+    }
+    public interface NavListener {
+        void openCheckoutPage();
+    }
+
+
     /**
      * Affiche le synopsis du film dans une boîte de dialogue.
      *

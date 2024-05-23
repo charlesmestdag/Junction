@@ -12,7 +12,7 @@
 <!-- #B8124E; -->
 
 <?import javafx.scene.control.ComboBox?>
-<AnchorPane fx:id="mainpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.helha.java.q2.cinephile.Views.checkoutViewController">
+<AnchorPane fx:id="mainpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.helha.java.q2.cinephile.Views.CheckoutViewController">
    <children>
       <AnchorPane layoutX="-3.0" prefHeight="700.0" prefWidth="874.0">
          <children>

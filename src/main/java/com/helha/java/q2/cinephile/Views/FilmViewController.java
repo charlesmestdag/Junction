@@ -6,23 +6,28 @@ import com.helha.java.q2.cinephile.Models.FilmDb;
 import javafx.animation.Interpolator;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -37,6 +42,7 @@ public class FilmViewController implements Initializable {
     private FilmDb filmDb;
     private FilmController filmController;
 
+    private goToScheduleListener listener;
 
     public FilmViewController() {
     }
@@ -84,7 +90,15 @@ public class FilmViewController implements Initializable {
                     "-fx-padding: 10px 20px; " +
                     "-fx-background-radius: 5px; " +
                     "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);"); /* Effet d'ombre */
-            button.setOnMouseClicked(event -> openSchedulePage(film));
+            button.setOnMouseClicked(event -> {
+                try {
+                    openSchedulePage(film);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
 
 
@@ -104,26 +118,50 @@ public class FilmViewController implements Initializable {
 
     }
 
-    private void openSchedulePage(Film film) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/SchedulePage.fxml"));
-            Parent root = loader.load();
-            ScheduleViewController scheduleController = loader.getController();
-            scheduleController.setFilm(film);
+    private void openSchedulePage(Film film) throws IOException, URISyntaxException {
+        if (listener != null){
+            listener.openSchedulePage(film);
+        }
 
-            // Obtenez la scène actuelle
-            Scene scene = flowPane.getScene();
-            Stage stage = (Stage) scene.getWindow();
+    }
+    public void setListener (goToScheduleListener listener){
+        this.listener = listener;
+    }
 
-            // Remplacez la scène actuelle par la nouvelle page chargée
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-            stage.setWidth(1150);
-            stage.setHeight(800);
+    public void handleConnexionButton(ActionEvent actionEvent) {
+        readFromFileAndShowPopup();
+    }
+
+    private void readFromFileAndShowPopup() {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader("transactions.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        showPopup(content.toString());
+    }
+
+    private void showPopup(String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Transaction History");
+        alert.setHeaderText("Here is the list of transactions:");
+        alert.setContentText(content);
+
+        // To handle large text, you might want to set an expandable content
+        TextArea textArea = new TextArea(content);
+        textArea.setEditable(false);
+        alert.getDialogPane().setExpandableContent(textArea);
+
+        alert.showAndWait();
+    }
+
+
+    public interface goToScheduleListener{
+        void openSchedulePage(Film film) throws IOException, URISyntaxException;
     }
 
     private void flipImage(ImageView fromImageView, ImageView toPane, Text texte, Button button) {
@@ -218,44 +256,5 @@ public class FilmViewController implements Initializable {
         }
     }
 }
-
-
-
-
-/*
-
-
-public class FilmViewController {
-    private Stage primaryStage;
-
-
-    public FilmViewController(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        init();
-    }
-
-
-    private void init() {
-        try {
-            // Charger le fichier FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/FilmView.fxml"));
-
-            Parent root = loader.load();
-            // Créer une nouvelle scène
-            Scene scene = new Scene(root);
-
-            // Configurer la scène et afficher la fenêtre principale
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Liste des Films");
-            primaryStage.setWidth(1000); // Largeur en pixels
-            primaryStage.setHeight(700); // Hauteur en pixels
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
- */
 
 

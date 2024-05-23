@@ -1,7 +1,5 @@
 package com.helha.java.q2.cinephile.Views;
 
-import com.helha.java.q2.cinephile.patternFactory.BancontactPaymentMethod;
-import com.helha.java.q2.cinephile.patternFactory.CreditCardPaymentMethod;
 import com.helha.java.q2.cinephile.patternFactory.PaymentMethod;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +14,7 @@ import java.io.IOException;
 /**
  * Contrôleur pour la vue de la page de paiement.
  */
-public class checkoutViewController {
+public class CheckoutViewController {
 
     @FXML
     private TextField adultTextField;
@@ -41,6 +39,8 @@ public class checkoutViewController {
 
     @FXML
     private Label ticketPriceLabel;
+    private NavListener listener;
+
 
     private double adultPrice = 8.50;
     private double childPrice = 5.00;
@@ -59,7 +59,6 @@ public class checkoutViewController {
      */
     @FXML
     private void initialize() {
-        checkoutbtn.setOnAction(event -> openBancontactPage());
         backButton.setOnAction(event -> goBack());
 
         paymentMethodComboBox.getItems().addAll("Credit Card", "Bancontact");
@@ -70,6 +69,16 @@ public class checkoutViewController {
         childTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
         seniorTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
         pmrTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
+
+        // Mettre à jour le prix total au démarrage
+        updateTotalPrice();
+
+        checkoutbtn.setOnAction(event -> {
+            // Récupérer le prix à nouveau au moment du clic
+            Double prix = Double.valueOf( ticketPriceLabel.getText().substring(0, ticketPriceLabel.getText().length() - 1));
+            openBancontactPage(prix);
+        });
+
     }
 
     /**
@@ -82,51 +91,22 @@ public class checkoutViewController {
     }
 
 
-    /**
-     * Opens the Bancontact payment page based on the selected payment method.
-     * Retrieves the total amount displayed, sets the payment strategy based on the user's choice,
-     * and initiates the payment transaction. If the amount is empty, displays an error message.
-     */
-    private void openBancontactPage() {
-        try {
-            String montant = ticketPriceLabel.getText().replace(",", ".").replace(" €", ""); // Récupére le montant total affiché
-            if (!montant.isEmpty()) {
-                // Set the payment strategy based on the user's choice
-                String paymentMethodChoice = paymentMethodComboBox.getValue();
-                if (paymentMethodChoice.equals("Credit Card")) {
-                    paymentMethod = new CreditCardPaymentMethod();
-                } else if (paymentMethodChoice.equals("Bancontact")) {
-                    paymentMethod = new BancontactPaymentMethod();
-                }
 
-                paymentMethod.pay(Double.parseDouble(montant));
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/bancontact.fxml"));
-                Parent root = loader.load();
-                BancontactViewController bancontactViewController = loader.getController();
-                bancontactViewController.setMontant(montant); // Passe le montant à la page Bancontact
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-                stage.setResizable(false);
-            } else {
-                // handle the case where montant is empty
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Dialog");
-                alert.setHeaderText("Payment Error");
-                alert.setContentText("Please enter a valid amount!");
-                alert.showAndWait();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void openBancontactPage(Double prix) {
+        if (listener != null){
+            listener.sendToTerminal(prix);
         }
+
     }
 
-    /**
-     * Réinitialise les TextField de sélection.
-     *
-     * @param event L'événement de bouton.
-     */
+
+    public void setListener(NavListener listener) {
+        this.listener = listener;
+    }
+    public interface NavListener {
+        void sendToTerminal(Double prix);
+    }
+
     @FXML
     private void handleResetButton(ActionEvent event) {
         adultTextField.clear();
@@ -136,9 +116,7 @@ public class checkoutViewController {
     }
 
 
-    /**
-     * Décrémente le nombre d'adultes.
-     */
+
     @FXML
     private void decrementAdult() {
         int count = parseTextFieldValue(adultTextField.getText());
@@ -148,9 +126,7 @@ public class checkoutViewController {
         }
     }
 
-    /**
-     * Incrémente le nombre d'adultes.
-     */
+
     @FXML
     private void incrementAdult() {
         int count = parseTextFieldValue(adultTextField.getText());
@@ -158,9 +134,7 @@ public class checkoutViewController {
         updateTotalPrice();
     }
 
-    /**
-     * Décrémente le nombre d'enfants.
-     */
+
     @FXML
     private void decrementChild() {
         int count = parseTextFieldValue(childTextField.getText());
@@ -170,9 +144,7 @@ public class checkoutViewController {
         }
     }
 
-    /**
-     * Incrémente le nombre d'enfants.
-     */
+
     @FXML
     private void incrementChild() {
         int count = parseTextFieldValue(childTextField.getText());
@@ -180,9 +152,7 @@ public class checkoutViewController {
         updateTotalPrice();
     }
 
-    /**
-     * Décrémente le nombre de seniors.
-     */
+
     @FXML
     private void decrementSenior() {
         int count = parseTextFieldValue(seniorTextField.getText());
@@ -192,9 +162,7 @@ public class checkoutViewController {
         }
     }
 
-    /**
-     * Incrémente le nombre de seniors.
-     */
+
     @FXML
     private void incrementSenior() {
         int count = parseTextFieldValue(seniorTextField.getText());
@@ -202,9 +170,7 @@ public class checkoutViewController {
         updateTotalPrice();
     }
 
-    /**
-     * Décrémente le nombre de PMR.
-     */
+
     @FXML
     private void decrementPmr() {
         int count = parseTextFieldValue(pmrTextField.getText());
@@ -214,9 +180,7 @@ public class checkoutViewController {
         }
     }
 
-    /**
-     * Incrémente le nombre de PMR.
-     */
+
     @FXML
     private void incrementPmr() {
         int count = parseTextFieldValue(pmrTextField.getText());
@@ -224,11 +188,16 @@ public class checkoutViewController {
         updateTotalPrice();
     }
 
+    public int getTotalTicketsChosen() {
+        int adultCount = parseTextFieldValue(adultTextField.getText());
+        int childCount = parseTextFieldValue(childTextField.getText());
+        int seniorCount = parseTextFieldValue(seniorTextField.getText());
+        int pmrCount = parseTextFieldValue(pmrTextField.getText());
+
+        return adultCount + childCount + seniorCount + pmrCount;
+    }
 
 
-    /**
-     * Met à jour le prix total en fonction des valeurs dans les TextField.
-     */
     private void updateTotalPrice() {
         int adultCount = parseTextFieldValue(adultTextField.getText());
         int childCount = parseTextFieldValue(childTextField.getText());
@@ -236,15 +205,14 @@ public class checkoutViewController {
         int pmrCount = parseTextFieldValue(pmrTextField.getText());
 
         double totalPrice = (adultCount * adultPrice) + (childCount * childPrice) + (seniorCount * seniorPrice) + (pmrCount * pmrPrice);
-        ticketPriceLabel.setText(String.format("%.2f €", totalPrice));
+        ticketPriceLabel.setText(String.valueOf(totalPrice));
+    }
+    public void updateTotalPrice(Double prix) {
+        ticketPriceLabel.setText(String.valueOf(prix));
     }
 
 
-    /**
-     * Parse la valeur d'un TextField en tant qu'entier, en cas d'erreur renvoie 0.
-     * @param text La valeur du TextField à parser.
-     * @return L'entier parsé ou 0 en cas d'erreur.
-     */
+
     private int parseTextFieldValue(String text) {
         try {
             return Integer.parseInt(text);
@@ -253,9 +221,7 @@ public class checkoutViewController {
         }
     }
 
-    /**
-     * Gère l'action de retour en arrière vers la vue précédente.
-     */
+
     private void goBack() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/SchedulePage.fxml"));
