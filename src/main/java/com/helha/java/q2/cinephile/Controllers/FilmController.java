@@ -20,6 +20,7 @@ public class FilmController {
 
     public FilmController() {
         this.filmDb = new FilmDb();
+        this.filmView = filmView;
 
     }
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
@@ -49,3 +50,4 @@ public class FilmController {
     }
 
 }
+

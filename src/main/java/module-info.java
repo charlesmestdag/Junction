@@ -17,3 +17,4 @@ module com.helha.java.q2.cinephile {
     opens com.helha.java.q2.cinephile.Views to javafx.fxml;
 
 }
+

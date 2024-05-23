@@ -8,11 +8,8 @@ import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -21,9 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.BufferedReader;
@@ -128,7 +124,8 @@ public class FilmViewController implements Initializable {
         this.listener = listener;
     }
 
-    public void handleConnexionButton(ActionEvent actionEvent) {
+    @FXML
+    void handleConnexionButton(ActionEvent event) {
         readFromFileAndShowPopup();
     }
 

@@ -84,3 +84,4 @@ public class Tiquet {
         this.nombreDeTiquetAdulte = nombreDeTiquetAdulte;
     }
 }
+
