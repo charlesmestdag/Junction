@@ -3,27 +3,30 @@ package com.helha.java.q2.cinephile.Views;
 import com.helha.java.q2.cinephile.Controllers.FilmController;
 import com.helha.java.q2.cinephile.Models.Film;
 import com.helha.java.q2.cinephile.Models.FilmDb;
+import com.helha.java.q2.cinephile.Models.Tiquet;
+import com.helha.java.q2.cinephile.Models.TiquetDb;
 import javafx.animation.Interpolator;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -34,6 +37,7 @@ import java.util.ResourceBundle;
 public class FilmViewController implements Initializable {
     @FXML
     public FlowPane flowPane;
+    public Menu menu;
 
     private FilmDb filmDb;
     private FilmController filmController;
@@ -123,39 +127,6 @@ public class FilmViewController implements Initializable {
     public void setListener (goToScheduleListener listener){
         this.listener = listener;
     }
-
-    @FXML
-    void handleConnexionButton(ActionEvent event) {
-        readFromFileAndShowPopup();
-    }
-
-    private void readFromFileAndShowPopup() {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader("transactions.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        showPopup(content.toString());
-    }
-
-    private void showPopup(String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Transaction History");
-        alert.setHeaderText("Here is the list of transactions:");
-        alert.setContentText(content);
-
-        // To handle large text, you might want to set an expandable content
-        TextArea textArea = new TextArea(content);
-        textArea.setEditable(false);
-        alert.getDialogPane().setExpandableContent(textArea);
-
-        alert.showAndWait();
-    }
-
 
     public interface goToScheduleListener{
         void openSchedulePage(Film film) throws IOException, URISyntaxException;
@@ -252,6 +223,34 @@ public class FilmViewController implements Initializable {
             }
         }
     }
+
+    public void displayTiquets(List<Tiquet> tiquets, List<Film> films) {
+        for (Tiquet tiquet : tiquets) {
+            // Recherche du film correspondant à l'ID du tiquet
+            Film film = getFilmById(films, tiquet.getFilmId());
+
+            // Vérification si le film correspondant à l'ID du tiquet a été trouvé
+            if (film != null) {
+                // Construction du texte du menu avec le titre du film
+                String menuText = tiquet.getNombreDeTiquet() + " Tiquet vendu pour le film " + film.getTitre() + " à la salle " + tiquet.getSalle() + " à " + tiquet.getHeure() + " pour un prix de " + tiquet.getPrix() + "€";
+                MenuItem menuItem = new MenuItem(menuText);
+                menu.getItems().add(menuItem);
+            }
+        }
+    }
+
+    // Méthode utilitaire pour trouver un film par son ID dans une liste de films
+    private Film getFilmById(List<Film> films, int filmId) {
+        for (Film film : films) {
+            if (film.getId() == filmId) {
+                return film;
+            }
+        }
+        return null; // Retourner null si aucun film avec l'ID correspondant n'a été trouvé
+    }
+
 }
+
+
 
 

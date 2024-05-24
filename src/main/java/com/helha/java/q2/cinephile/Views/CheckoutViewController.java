@@ -45,7 +45,6 @@ public class CheckoutViewController {
     private double adultPrice = 8.50;
     private double childPrice = 5.00;
     private double seniorPrice = 7.50;
-    private double pmrPrice = 7.50; // Prix pour les personnes à mobilité réduite
 
 
     private PaymentMethod paymentMethod;
@@ -59,7 +58,6 @@ public class CheckoutViewController {
      */
     @FXML
     private void initialize() {
-        backButton.setOnAction(event -> goBack());
 
         paymentMethodComboBox.getItems().addAll("Credit Card", "Bancontact");
         paymentMethodComboBox.setValue("Credit Card"); // Set a default value
@@ -68,14 +66,14 @@ public class CheckoutViewController {
         adultTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
         childTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
         seniorTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
-        pmrTextField.textProperty().addListener((observable, oldValue, newValue) -> updateTotalPrice());
+
 
         // Mettre à jour le prix total au démarrage
         updateTotalPrice();
 
         checkoutbtn.setOnAction(event -> {
             // Récupérer le prix à nouveau au moment du clic
-            Double prix = Double.valueOf( ticketPriceLabel.getText().substring(0, ticketPriceLabel.getText().length() - 1));
+            Double prix = Double.valueOf(ticketPriceLabel.getText().substring(0, ticketPriceLabel.getText().length() - 1));
             openBancontactPage(prix);
         });
 
@@ -91,9 +89,8 @@ public class CheckoutViewController {
     }
 
 
-
     private void openBancontactPage(Double prix) {
-        if (listener != null){
+        if (listener != null) {
             listener.sendToTerminal(prix);
         }
 
@@ -103,6 +100,7 @@ public class CheckoutViewController {
     public void setListener(NavListener listener) {
         this.listener = listener;
     }
+
     public interface NavListener {
         void sendToTerminal(Double prix);
     }
@@ -112,9 +110,7 @@ public class CheckoutViewController {
         adultTextField.clear();
         childTextField.clear();
         seniorTextField.clear();
-        pmrTextField.clear();
     }
-
 
 
     @FXML
@@ -172,21 +168,7 @@ public class CheckoutViewController {
 
 
     @FXML
-    private void decrementPmr() {
-        int count = parseTextFieldValue(pmrTextField.getText());
-        if (count > 0) {
-            pmrTextField.setText(String.valueOf(count - 1));
-            updateTotalPrice();
-        }
-    }
 
-
-    @FXML
-    private void incrementPmr() {
-        int count = parseTextFieldValue(pmrTextField.getText());
-        pmrTextField.setText(String.valueOf(count + 1));
-        updateTotalPrice();
-    }
 
     public int getTotalTicketsChosen() {
         int adultCount = parseTextFieldValue(adultTextField.getText());
@@ -202,15 +184,15 @@ public class CheckoutViewController {
         int adultCount = parseTextFieldValue(adultTextField.getText());
         int childCount = parseTextFieldValue(childTextField.getText());
         int seniorCount = parseTextFieldValue(seniorTextField.getText());
-        int pmrCount = parseTextFieldValue(pmrTextField.getText());
 
-        double totalPrice = (adultCount * adultPrice) + (childCount * childPrice) + (seniorCount * seniorPrice) + (pmrCount * pmrPrice);
+
+        double totalPrice = (adultCount * adultPrice) + (childCount * childPrice) + (seniorCount * seniorPrice);
         ticketPriceLabel.setText(String.valueOf(totalPrice));
     }
+
     public void updateTotalPrice(Double prix) {
         ticketPriceLabel.setText(String.valueOf(prix));
     }
-
 
 
     private int parseTextFieldValue(String text) {
@@ -220,26 +202,7 @@ public class CheckoutViewController {
             return 0;
         }
     }
-
-
-    private void goBack() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/helha/java/q2/cinephile/SchedulePage.fxml"));
-            Parent root = loader.load();
-
-            // Obtient la scène actuelle
-            Scene scene = backButton.getScene();
-            Stage stage = (Stage) scene.getWindow();
-
-            // Remplace la scène actuelle par la nouvelle page chargée
-            scene.setRoot(root);
-            stage.show();
-            stage.setWidth(1150);
-            stage.setHeight(800);
-            stage.setResizable(false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
+
+
 

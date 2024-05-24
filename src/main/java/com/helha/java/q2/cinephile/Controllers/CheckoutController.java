@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class CheckoutController {
     static CheckoutViewController CheckoutViewController;
 
-    public static void openCheckout(Film film) {
+    public static void openCheckout(Film film, String selectedRoom, String selectedHour) {
         try {
             FXMLLoader loader = new FXMLLoader(CheckoutController.class.getResource("/com/helha/java/q2/cinephile/checkout.fxml"));
             Parent root = loader.load();

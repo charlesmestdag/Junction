@@ -2,6 +2,8 @@ package com.helha.java.q2.cinephile.Controllers;
 
 import com.helha.java.q2.cinephile.Models.Film;
 import com.helha.java.q2.cinephile.Models.FilmDb;
+import com.helha.java.q2.cinephile.Models.Tiquet;
+import com.helha.java.q2.cinephile.Models.TiquetDb;
 import com.helha.java.q2.cinephile.Views.FilmViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,11 +18,13 @@ import java.util.List;
 public class FilmController {
     private FilmViewController filmView;
     private FilmDb filmDb;
+    private TiquetDb tiquetDb;
     private Stage filmStage;
 
     public FilmController() {
         this.filmDb = new FilmDb();
         this.filmView = filmView;
+        this.tiquetDb = new TiquetDb();
 
     }
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
@@ -43,11 +47,16 @@ public class FilmController {
         primaryStage.setHeight(700); // Hauteur en pixels
         primaryStage.show();
         loadFilms();
+        loadTiquets();
     }
     private void loadFilms() throws MalformedURLException, URISyntaxException {
         List<Film> films = filmDb.getAllFilms();
         filmView.displayFilms(films);
     }
-
+    public void loadTiquets() throws MalformedURLException, URISyntaxException
+    {
+        List<Tiquet> tiquets = tiquetDb.getAllTiquets();
+        List<Film> films = filmDb.getAllFilms();
+        filmView.displayTiquets(tiquets, films);
+    }
 }
-

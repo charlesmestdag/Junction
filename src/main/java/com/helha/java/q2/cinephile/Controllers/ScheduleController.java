@@ -26,8 +26,10 @@ public class ScheduleController {
             ScheduleViewController scheduleController = loader.getController();
             scheduleController.setListener(new ScheduleViewController.NavListener() {
                 @Override
-                public void openCheckoutPage() {
-                    CheckoutController.openCheckout(film);
+                public void openCheckoutPage(String selectedRoom,String selectedHour) {
+                    CheckoutController.openCheckout(film, selectedRoom , selectedHour);
+                    System.out.println(selectedRoom);
+                    System.out.println(selectedHour);
                 }
             });
             scheduleController.setFilm(film);
@@ -44,7 +46,6 @@ public class ScheduleController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 
